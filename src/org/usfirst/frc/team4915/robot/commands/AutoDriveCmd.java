@@ -6,11 +6,19 @@ import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
 /**
  *
  */
-public class AutoDriveRockwall extends Command {
-    private AresDriveTrain m_driveTrain;
-    
-    public AutoDriveRockwall(AresDriveTrain drivetrain) 
+public class AutoDriveCmd extends Command {
+    public enum AutoMode
     {
+        RockWall,
+        Disabled
+    };
+    
+    private AresDriveTrain m_driveTrain;
+    private AutoMode m_autoMode;
+    
+    public AutoDriveCmd(AresDriveTrain drivetrain, AutoMode m) 
+    {
+        m_autoMode = m;
         m_driveTrain = drivetrain;
         requires(m_driveTrain);
     }
@@ -18,19 +26,33 @@ public class AutoDriveRockwall extends Command {
     // Called just before this Command runs the first time
     protected void initialize()
     {
-        m_driveTrain.autoDriveBegin(8.0);
+        switch(m_autoMode)
+        {
+        case RockWall:
+            m_driveTrain.autoDriveBegin(8.0);
+            break;
+        case Disabled:
+            break;
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-        m_driveTrain.autoDrive();
+        // always want to deliver cycles to autoDrive, even when disabled
+        if(m_autoMode == AutoMode.Disabled)
+            m_driveTrain.stop();
+        else
+            m_driveTrain.autoDrive();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-        return m_driveTrain.autoReachedTarget();
+        if(m_autoMode == AutoMode.Disabled)
+            return true;
+        else
+            return m_driveTrain.autoReachedTarget();
     }
 
     // Called once after isFinished returns true

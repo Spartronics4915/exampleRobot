@@ -72,11 +72,6 @@ public class AresDriveTrain extends Subsystem
                                                       // 12V after 1sec
             m_rightMasterMotor.setVoltageRampRate(48.0);
     
-            // Add SmartDashboard controls for testing
-            // Add SmartDashboard live window
-            LiveWindow.addActuator("Drive Train", "Left Master 10", m_leftMasterMotor);
-            LiveWindow.addActuator("Drive Train", "Right Master 12", m_rightMasterMotor);
-    
             
             m_robotDrive = new RobotDrive(m_leftMasterMotor, 
                                           m_rightMasterMotor);
@@ -88,12 +83,20 @@ public class AresDriveTrain extends Subsystem
             System.out.println("WARNING AresDriveTrain initialized FAILED");
             e.printStackTrace();
         }
-   }
+    }
+    
+    public void initDashboard()
+    {
+        // Add SmartDashboard controls for testing
+        // Add SmartDashboard live window
+        LiveWindow.addActuator("Drive Train", "Left Master 10", m_leftMasterMotor);
+        LiveWindow.addActuator("Drive Train", "Right Master 12", m_rightMasterMotor);
+    }
 
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ManualDriveCmd(this, m_robot.m_oi.getDriveStick()));
+        setDefaultCommand(new ManualDriveCmd(this, m_robot.getOI().getDriveStick()));
     }
     
     public void manualDriveBegin()

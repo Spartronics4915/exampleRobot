@@ -6,34 +6,37 @@ import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
-import org.usfirst.frc.team4915.robot.commands.AutoDriveRockwall;
-import org.usfirst.frc.team4915.robot.commands.AutoDriveDisable;
 import org.usfirst.frc.team4915.robot.RobotMap;
 
 
 /**
- * The VM is configured to automatically run this class, and to call the
+ * The WPILib runtime is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
 public class Robot extends IterativeRobot 
 {
-	public OI m_oi;
+	private OI m_oi;
 	
 	// subsystems
-    public AresDriveTrain m_driveTrain;
+    private AresDriveTrain m_driveTrain;
     
     // misc sensors that aren't part of a subsystem
-    public DigitalOutput m_photonicCannon;
-
+    private DigitalOutput m_photonicCannon;
+    
+    // internal state
     private Command m_autoCmd;
-    private SendableChooser m_chooser;
+    
+    // accessors
+    public OI getOI() { return m_oi; }
+    public AresDriveTrain getDriveTrain() { return m_driveTrain; }
+    public DigitalOutput getPhotonicCannon() { return m_photonicCannon; }
 
     /**
      * This function is run when the robot is first started up and should be
@@ -41,14 +44,15 @@ public class Robot extends IterativeRobot
      */
     public void robotInit() 
     {
-		m_oi = new OI(this);
+        // first initialize subsystems
 		m_driveTrain = new AresDriveTrain(this); 
 		m_photonicCannon = new DigitalOutput(RobotMap.photonicCannonPin);
+       
+		// last initialize operator interface; needs access to actuators
+		// for commands.
+		m_oi = new OI(this);
 		
-        m_chooser = new SendableChooser();
-        m_chooser.addDefault("Rock Wall", new AutoDriveRockwall(m_driveTrain));
-        m_chooser.addObject("Disable", new AutoDriveDisable(m_driveTrain));
-        SmartDashboard.putData("Auto mode", m_chooser);
+		Logger.getInstance().logInfo("robotInit complete");
     }
 	
 	/**
@@ -56,11 +60,12 @@ public class Robot extends IterativeRobot
      * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
      */
-    public void disabledInit(){
-
+    public void disabledInit()
+    {
     }
 	
-	public void disabledPeriodic() {
+	public void disabledPeriodic() 
+	{
 		Scheduler.getInstance().run();
 	}
 
@@ -75,49 +80,48 @@ public class Robot extends IterativeRobot
 	 */
     public void autonomousInit() 
     {
-        // autonomousCommand = (Command) chooser.getSelected();
-        
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
-        // if (autonomousCommand != null) autonomousCommand.start();
+        m_autoCmd = m_oi.getAutoCmd();
+        if(m_autoCmd != null)
+        {
+            m_autoCmd.start();
+        }
     }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() 
+    {
         Scheduler.getInstance().run();
     }
 
-    public void teleopInit() {
+    public void teleopInit() 
+    {
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        //if (autonomousCommand != null) autonomousCommand.cancel();
+        if(m_autoCmd != null)
+        {
+            m_autoCmd.cancel();
+        }
+        // at this stage we expect the scheduler to activate the
+        // default commands for each subsystem.
     }
 
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic() {
+    public void teleopPeriodic() 
+    {
         Scheduler.getInstance().run();
     }
     
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
+    public void testPeriodic() 
+    {
         LiveWindow.run();
     }
 }

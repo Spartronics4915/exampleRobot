@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4915.robot.commands;
 
+import org.usfirst.frc.team4915.robot.Logger;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -29,7 +31,7 @@ public class LightSwitchCmd extends Command {
     {
         m_enabled = !m_enabled;
         m_lightswitch.set(m_enabled);
-        System.out.println("Light is now " + m_enabled);
+        Logger.getInstance().logInfo("Light is now " + m_enabled);
     }
 
     // Make this return true when this Command no longer needs to run execute()

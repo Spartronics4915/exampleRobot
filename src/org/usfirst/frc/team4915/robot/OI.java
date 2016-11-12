@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,9 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
 import org.usfirst.frc.team4915.robot.commands.ManualDriveCmd;
+import org.usfirst.frc.team4915.robot.commands.AutoDriveCmd;
 import org.usfirst.frc.team4915.robot.commands.LightSwitchCmd;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -47,42 +50,40 @@ public class OI
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
     
+    private Robot m_robot;
     private Joystick m_driveStick;
     private JoystickButton m_lightSwitchButton;
-    private Robot m_robot;
-   
+    private SendableChooser m_autoChooser;
+    
     // constants
-    private final int driveStickPort = 0;
-    private final int lightSwitchButtonNum = 5;
+    private final int k_driveStickPort = 0;
+    private final int k_lightSwitchButtonNum = 5;
     
     public OI(Robot robot)
     {
         m_robot = robot;
         
         initDriveOI();
+        initDashboard();
        
         createButton(this.m_lightSwitchButton, m_driveStick, 
-                     lightSwitchButtonNum, new LightSwitchCmd(m_robot.m_photonicCannon));
+                     k_lightSwitchButtonNum, 
+                     new LightSwitchCmd(m_robot.getPhotonicCannon()));
  
-        initDashboard();
     }
     
     public Joystick getDriveStick() { return m_driveStick; }
     
-    private void createButton(JoystickButton button, Joystick js, 
-                              int buttonNumber, Command cmd) 
-    {
-        button = new JoystickButton(js, buttonNumber);
-        button.whenPressed(cmd);
-    }
- 
     private void initDriveOI()
     {
-        m_driveStick = new Joystick(driveStickPort);        
+        m_driveStick = new Joystick(k_driveStickPort);        
     }
     
     private void initDashboard()
     {
+        initAutoOI();
+        m_robot.getDriveTrain().initDashboard();
+        
         /*
          * VERSION STRING!!
          */
@@ -94,13 +95,34 @@ public class OI
                               "  vers:" + attributes.getValue("Code-Version");
             /* we'd like a single field on the smart dashboard for easier layout/tracking */
             SmartDashboard.putString("Build", buildStr);
-            System.out.println("Build " + buildStr);
+            
+            Logger.getInstance().logNotice("Build " + buildStr);;
         }
         catch (IOException e) 
         {
-            e.printStackTrace();
+            Logger.getInstance().logException(e);
         }
-       
+    }
+
+    private void initAutoOI()
+    {
+        m_autoChooser = new SendableChooser();
+        m_autoChooser.addDefault("Rock Wall", new AutoDriveCmd(m_robot.getDriveTrain(), AutoDriveCmd.AutoMode.RockWall));
+        m_autoChooser.addDefault("Disabled", new AutoDriveCmd(m_robot.getDriveTrain(), AutoDriveCmd.AutoMode.Disabled));
+        SmartDashboard.putData("AutoMode", m_autoChooser);
+    }
+    
+    public Command getAutoCmd()
+    {
+        return (Command) m_autoChooser.getSelected();
+    }
+    
+    
+    private void createButton(JoystickButton button, Joystick js, 
+            int buttonNumber, Command cmd) 
+    {
+        button = new JoystickButton(js, buttonNumber);
+        button.whenPressed(cmd);
     }
 }
 
