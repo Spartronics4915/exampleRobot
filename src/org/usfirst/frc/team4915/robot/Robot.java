@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot
     public void robotInit() 
     {
         // first initialize subsystems
-		m_driveTrain = new AresDriveTrain(this); 
+		m_driveTrain = new AresDriveTrain(m_oi); 
 		m_photonicCannon = new DigitalOutput(RobotMap.photonicCannonPin);
        
 		// last initialize operator interface; needs access to actuators

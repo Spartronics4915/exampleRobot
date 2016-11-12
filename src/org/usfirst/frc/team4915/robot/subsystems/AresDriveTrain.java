@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team4915.robot.subsystems;
 
-import org.usfirst.frc.team4915.robot.Robot;
+import org.usfirst.frc.team4915.robot.OI;
 import org.usfirst.frc.team4915.robot.RobotMap;
 import org.usfirst.frc.team4915.robot.commands.ManualDriveCmd;
 
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 public class AresDriveTrain extends Subsystem 
 {
     // member variables ---------------------------------------------------
-    private Robot m_robot;
+    private OI m_oi;
     private RobotDrive m_robotDrive;
     
     private CANTalon m_leftMasterMotor;
@@ -30,9 +30,9 @@ public class AresDriveTrain extends Subsystem
     private static final double quadTicksPerInch = quadTicksPerWheelRev / wheelCircumferenceInInches;
     
     // methods ---------------------------------------------------
-    public AresDriveTrain(Robot r)
+    public AresDriveTrain(OI oi)
     {
-        m_robot = r;
+        m_oi = oi;
         
         // STEP 1: instantiate the motor controllers, we guard against
         // exceptions that might be caused if motors are missing, etc.
@@ -96,7 +96,7 @@ public class AresDriveTrain extends Subsystem
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new ManualDriveCmd(this, m_robot.getOI().getDriveStick()));
+        setDefaultCommand(new ManualDriveCmd(this, m_oi.getDriveStick()));
     }
     
     public void manualDriveBegin()
