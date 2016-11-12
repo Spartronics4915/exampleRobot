@@ -5,7 +5,7 @@ exampleRobot
 ![tag](https://img.shields.io/github/tag/Spartronics4915/2016-Stronghold.svg)
 
 
-This repo is a minimal robot example. It is a companion to the google slide
+This repo is a minimal robot example. It is a companion to the google slide deck:
 [Intro to FRC Programming](https://docs.google.com/presentation/d/1ZiMBC9y3xrwFk1akdaiV_BMLLS6EyY6BSfiTRQo1KlM/edit#slide=id.g190898ba99_1_437).
 
 Primary points of focus:
