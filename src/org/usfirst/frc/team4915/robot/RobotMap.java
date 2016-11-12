@@ -16,7 +16,7 @@ public class RobotMap
     public static final int driveTrainRightFollowerMotorID = 13;
     
    
-    // DIO pins
+    // DigitalInput/Output (DIO) pins
     public static int photonicCannonPin = 1;
     
     // PWM Controls

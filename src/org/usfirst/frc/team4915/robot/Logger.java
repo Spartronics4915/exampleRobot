@@ -1,7 +1,10 @@
 package org.usfirst.frc.team4915.robot;
 
 // Logger:
-//  a simple class to "bunghole" all logging through.
+//  a simple class to "bunghole" all logging through. 
+//  future enhancement:
+//      * support logging to file
+//      * runtime inference of logging level (practice vs competition)
 //  usage:
 //      Logger.getInstance().logDebug("here's my message");
 public class Logger 
