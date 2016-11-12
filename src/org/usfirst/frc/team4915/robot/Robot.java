@@ -1,12 +1,9 @@
-
 package org.usfirst.frc.team4915.robot;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 
 import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
 import org.usfirst.frc.team4915.robot.RobotMap;
@@ -22,7 +19,7 @@ import org.usfirst.frc.team4915.robot.RobotMap;
 
 public class Robot extends IterativeRobot 
 {
-	private OI m_oi;
+    private OI m_oi;
 	
 	// subsystems
     private AresDriveTrain m_driveTrain;
@@ -70,13 +67,9 @@ public class Robot extends IterativeRobot
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
+     * OI is reponsible for defining the interface to autonomous.
+     * At the moment we enter autonomous mode, we obtain the 
+     * auto command selected by the driver.
 	 */
     public void autonomousInit() 
     {
