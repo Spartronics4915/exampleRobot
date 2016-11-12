@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
 
 /**
- *
+ * AutoDriveCmd: simple auto mode that relies on AresDriveTrain
+ * for most of the interesting behavior.
  */
-public class AutoDriveCmd extends Command {
+public class AutoDriveCmd extends Command 
+{
     public enum AutoMode
     {
         RockWall,

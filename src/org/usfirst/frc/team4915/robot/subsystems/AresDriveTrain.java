@@ -96,6 +96,8 @@ public class AresDriveTrain extends Subsystem
     public void initDefaultCommand() 
     {
         // Set the default command for a subsystem here.
+        // ManualDriveCmd will pass the joystick values to our
+        //  manualDrive method.
         setDefaultCommand(new ManualDriveCmd(this, m_oi.getDriveStick()));
     }
     

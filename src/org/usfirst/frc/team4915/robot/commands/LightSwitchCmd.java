@@ -1,14 +1,13 @@
 package org.usfirst.frc.team4915.robot.commands;
-
 import org.usfirst.frc.team4915.robot.Logger;
-
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
+/*
+ *  a simple command to turn on/off the "photonic cannon"
  */
-public class LightSwitchCmd extends Command {
+public class LightSwitchCmd extends Command 
+{
     private boolean m_enabled;
     private DigitalOutput m_lightswitch;
     
@@ -34,10 +33,9 @@ public class LightSwitchCmd extends Command {
         Logger.getInstance().logInfo("Light is now " + m_enabled);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
-    {
-        return true;
+    { 
+        return true; // we're just a toggle, so finish immediately
     }
 
     // Called once after isFinished returns true

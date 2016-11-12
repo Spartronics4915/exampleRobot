@@ -6,6 +6,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
 import org.usfirst.frc.team4915.robot.Robot;
 
+/*
+ * ManualDriveCmd: interfaces to AresDriveTrain to deliver
+ * joystick values to its manualDrive method.
+ * Currently we assert that we are never finished. We *can*
+ * be interrupted.  ManualDriveCmd is probably the default
+ * command associated with AresDriveTrain and so it is in
+ * play whenever no other command requires AresDriveTrain.
+ */
 public class ManualDriveCmd extends Command 
 {
     // member variables
