@@ -10,14 +10,15 @@ package org.usfirst.frc.team4915.robot;
 public class RobotMap 
 {
     // CAN Devices
-    public static final int driveTrainLeftMasterMotorID = 10;
-    public static final int driveTrainLeftFollowerMotorID = 11;
-    public static final int driveTrainRightMasterMotorID = 12;
-    public static final int driveTrainRightFollowerMotorID = 13;
+    public static final int lifterMotorID = 10;
+    public static final int driveTrainLeftMasterMotorID = 11;
+    public static final int driveTrainLeftFollowerMotorID = 12;
+    public static final int driveTrainRightMasterMotorID = 13;
+    public static final int driveTrainRightFollowerMotorID = 14;
     
-   
     // DigitalInput/Output (DIO) pins
     public static int photonicCannonPin = 1;
+    public static int lifterDIOSwitchPin = 2;
     
     // PWM Controls
     

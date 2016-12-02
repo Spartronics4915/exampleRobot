@@ -7,7 +7,7 @@ import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
  * AutoDriveCmd: simple auto mode that relies on AresDriveTrain
  * for most of the interesting behavior.
  */
-public class AutoDriveCmd extends Command 
+public class DriveAutoCmd extends Command 
 {
     public enum AutoMode
     {
@@ -18,7 +18,7 @@ public class AutoDriveCmd extends Command
     private AresDriveTrain m_driveTrain;
     private AutoMode m_autoMode;
     
-    public AutoDriveCmd(AresDriveTrain drivetrain, AutoMode m) 
+    public DriveAutoCmd(AresDriveTrain drivetrain, AutoMode m) 
     {
         m_autoMode = m;
         m_driveTrain = drivetrain;

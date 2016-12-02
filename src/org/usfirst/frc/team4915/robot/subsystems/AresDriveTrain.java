@@ -1,27 +1,30 @@
 
 package org.usfirst.frc.team4915.robot.subsystems;
 
-import org.usfirst.frc.team4915.robot.OI;
 import org.usfirst.frc.team4915.robot.RobotMap;
-import org.usfirst.frc.team4915.robot.commands.ManualDriveCmd;
+import org.usfirst.frc.team4915.robot.Robot;
+import org.usfirst.frc.team4915.robot.commands.DriveManualCmd;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.Joystick;
 
 
 public class AresDriveTrain extends Subsystem 
 {
     // member variables ---------------------------------------------------
-    private OI m_oi;
+    private Robot m_robot;
     private RobotDrive m_robotDrive;
     
     private CANTalon m_leftMasterMotor;
     private CANTalon m_rightMasterMotor;
     private CANTalon m_leftFollowerMotor;
     private CANTalon m_rightFollowerMotor;
+    
+    private Joystick m_driveStick; // passed to us after constructor by OI
     
     // constants ----------------------------------------------------------
     private static final int quadTicksPerWheelRev = 9830;
@@ -30,12 +33,11 @@ public class AresDriveTrain extends Subsystem
     private static final double quadTicksPerInch = quadTicksPerWheelRev / wheelCircumferenceInInches;
     
     // methods ---------------------------------------------------
-    public AresDriveTrain(OI oi)
+    public AresDriveTrain(Robot r)
     {
-        m_oi = oi;
-        
         // STEP 1: instantiate the motor controllers, we guard against
         // exceptions that might be caused if motors are missing, etc.
+        m_robot = r;
         try
         {
             m_leftMasterMotor = new CANTalon(RobotMap.driveTrainLeftMasterMotorID);
@@ -76,13 +78,18 @@ public class AresDriveTrain extends Subsystem
             m_robotDrive = new RobotDrive(m_leftMasterMotor, 
                                           m_rightMasterMotor);
             
-            System.out.println("AresDriveTrain initialized successfully!");
+            m_robot.logger.notice("AresDriveTrain initialized successfully!");
         }
         catch(Exception e)
         {
-            System.out.println("WARNING AresDriveTrain initialized FAILED");
-            e.printStackTrace();
+            m_robot.logger.exception(e, true /*no stack trace needed*/);
         }
+    }
+    
+    public void setDriveStick(Joystick j)
+    {
+        m_driveStick = j; // must precede call to initDefaultCommand
+                          // that call is made by Scheduler::run
     }
     
     public void initDashboard()
@@ -98,7 +105,8 @@ public class AresDriveTrain extends Subsystem
         // Set the default command for a subsystem here.
         // ManualDriveCmd will pass the joystick values to our
         //  manualDrive method.
-        setDefaultCommand(new ManualDriveCmd(this, m_oi.getDriveStick()));
+        assert m_driveStick != null;
+        setDefaultCommand(new DriveManualCmd(this, m_driveStick));
     }
     
     public void manualDriveBegin()

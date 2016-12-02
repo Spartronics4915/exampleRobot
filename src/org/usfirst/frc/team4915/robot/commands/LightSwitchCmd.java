@@ -30,7 +30,7 @@ public class LightSwitchCmd extends Command
     {
         m_enabled = !m_enabled;
         m_lightswitch.set(m_enabled);
-        Logger.getInstance().logInfo("Light is now " + m_enabled);
+        Logger.getInstance().info("Light is now " + m_enabled);
     }
 
     protected boolean isFinished() 

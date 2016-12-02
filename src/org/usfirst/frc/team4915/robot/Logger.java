@@ -1,17 +1,35 @@
 package org.usfirst.frc.team4915.robot;
 
 // Logger:
-//  a simple class to "bunghole" all logging through. 
+//  a simple class to route all logging through. 
 //  future enhancement:
 //      * support logging to file
 //      * runtime inference of logging level (practice vs competition)
 //  usage:
-//      Logger.getInstance().logDebug("here's my message");
+//      singleton: Logger.getInstance().debug("here's my message");
+//      via Robot:  robot.logger.debug("here's a debugging msg");
+//  loglevel conventions:
+//      debug: used for debugging software... not available during
+//          competition.
+//      info:  used for less interesting but non-debugging message.
+//      notice: used for msgs you always want to see in log
+//          - subsystem initializations
+//          - important state transitions (ie entering auto, teleop)
+//      warning: used to convey non-fatal but abnormal state
+//      error: used to convey strong abnormal conditions
+//      exception: used in a catch block to report exceptions.
+//
 public class Logger 
 {
-    private static Logger s_logger = new Logger();
+    private static Logger s_logger;
     
-    public static Logger getInstance() { return s_logger; }
+    public static Logger getInstance()
+    {
+        if(s_logger == null) {
+            s_logger = new Logger();
+        }
+        return s_logger; 
+    }
     
     private enum level
     {
@@ -21,11 +39,11 @@ public class Logger
         WARNING,
         ERROR
     };
-    private static int s_loglevel = level.DEBUG.ordinal();
+    private static int s_loglevel = level.INFO.ordinal(); 
     
-    private Logger() {}
+    private Logger() {}  // currently we encourage singleton usage
 
-    public void logDebug(String msg)
+    public void debug(String msg)
     {
         if(s_loglevel <= level.DEBUG.ordinal())
         {
@@ -33,7 +51,7 @@ public class Logger
         }
     }
     
-    public void logInfo(String msg)
+    public void info(String msg)
     {
         if(s_loglevel <= level.INFO.ordinal())
         {
@@ -41,7 +59,7 @@ public class Logger
         }
     }
     
-    public void logNotice(String msg)
+    public void notice(String msg)
     {
         if(s_loglevel <= level.NOTICE.ordinal())
         {
@@ -49,7 +67,7 @@ public class Logger
         }
     }
     
-    public void logWarning(String msg)
+    public void warning(String msg)
     {
         if(s_loglevel <= level.WARNING.ordinal())
         {
@@ -57,15 +75,18 @@ public class Logger
         }
     }
     
-    public void logError(String msg)
+    public void error(String msg)
     {
         logMsg("ERROR  ", msg);
     }
     
-    public void logException(Exception e)
+    public void exception(Exception e, boolean skipStackTrace)
     {
         logMsg("EXCEPT ", e.getMessage());
-        e.printStackTrace();
+        if(!skipStackTrace)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void logMsg(String lvl, String msg)

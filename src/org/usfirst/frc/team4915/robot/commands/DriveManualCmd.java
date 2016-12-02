@@ -14,7 +14,7 @@ import org.usfirst.frc.team4915.robot.Robot;
  * command associated with AresDriveTrain and so it is in
  * play whenever no other command requires AresDriveTrain.
  */
-public class ManualDriveCmd extends Command 
+public class DriveManualCmd extends Command 
 {
     // member variables
     private AresDriveTrain m_driveTrain;
@@ -24,7 +24,7 @@ public class ManualDriveCmd extends Command
     private final double m_turnMultiplier = -.55; 
     
     // methods
-    public ManualDriveCmd(AresDriveTrain driveTrain, Joystick joystick) 
+    public DriveManualCmd(AresDriveTrain driveTrain, Joystick joystick) 
     {
         m_driveTrain = driveTrain;
         m_joystick = joystick;
