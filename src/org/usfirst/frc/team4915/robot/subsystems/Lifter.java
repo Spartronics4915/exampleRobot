@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4915.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc.team4915.robot.Robot;
 import org.usfirst.frc.team4915.robot.RobotMap;
 import org.usfirst.frc.team4915.robot.commands.LifterManualCtlCmd;
@@ -22,15 +24,25 @@ public class Lifter extends Subsystem
     public Lifter(Robot r)
     {
         m_robot = r;
-        m_mainMotor = new CANTalon(RobotMap.lifterMotorID);
-        m_mainMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-        m_mainMotor.configPeakOutputVoltage(12.0, -12.0);
-        m_mainMotor.enableBrakeMode(true);
+        
+        try
+        {
+            m_mainMotor = new CANTalon(RobotMap.lifterMotorID);
+            m_mainMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+            m_mainMotor.configPeakOutputVoltage(12.0, -12.0);
+            m_mainMotor.enableBrakeMode(true);
         // for now we'll manually check limit switches
-            // m_mainMotor.enableLimitSwitch(true, true); 
+            // m_mainMotor.enableLimitSwitch(true, true);
+        }
+        catch(Exception e)
+        {
+            m_robot.logger.error("Lifter.m_mainMotor initialization failure");
+            m_robot.logger.exception(e, true /*no stack trace needed*/);
+        }
         
         m_dioLimitSwitch = new DigitalInput(RobotMap.lifterDIOSwitchPin);
         m_motorIsActive = false;
+        m_robot.logger.notice("Lifter initialized");
     }
     public void setLifterStick(Joystick j)
     {
@@ -39,6 +51,11 @@ public class Lifter extends Subsystem
     public void initDefaultCommand()
     {
         setDefaultCommand(new LifterManualCtlCmd(this));
+    }
+    public void initDashboard()
+    {
+        LiveWindow.addActuator("Lifter", "main motor", m_mainMotor);
+        // TODO: add SmartDashboard status
     }
     // limit switches -------------------------------------------------
     public boolean getFwdLimitSwitch()
@@ -68,7 +85,6 @@ public class Lifter extends Subsystem
             stopMotor();
         }
         else
-        if(Math.abs(y) > k_minJoystickValue)
         {
             startMotor();
             m_mainMotor.set(y); // Set accepts values between -1 and 1

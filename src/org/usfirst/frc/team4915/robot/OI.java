@@ -73,6 +73,9 @@ public class OI
     {
         Lifter l = m_robot.getLifter();
         m_lifterStick = new Joystick(k_liftStickPort);
+        m_lifterCheckLimitSwitchButton = new JoystickButton(m_lifterStick, k_liftCheckLimitSwitchBID);
+        m_lifterCheckLimitSwitchButton.whileHeld(new LifterCheckLimitSwitchCmd(l));
+ 
         m_robot.getLifter().setLifterStick(m_lifterStick);
         m_lifterManualButton = new JoystickButton(m_lifterStick, k_liftManualBID);
         m_lifterManualButton.whenPressed(new LifterManualCtlCmd(l));
@@ -82,9 +85,7 @@ public class OI
         m_lifterRevRutton.whenPressed(new LifterAutoCtlCmd(l, false, false));
         m_lifterCycleButton = new JoystickButton(m_lifterStick, k_liftCycleBID);
         m_lifterCycleButton.whenPressed(new LifterAutoCtlCmd(l, true, true));
-        m_lifterCheckLimitSwitchButton = new JoystickButton(m_lifterStick, k_liftCheckLimitSwitchBID);
-        m_lifterCheckLimitSwitchButton.whileHeld(new LifterCheckLimitSwitchCmd(l));
-    }
+   }
     
     private void initGlobalOI()
     {
@@ -97,6 +98,7 @@ public class OI
     {
         initAutoOI();
         m_robot.getDriveTrain().initDashboard();
+        m_robot.getLifter().initDashboard();
         
         /*
          * VERSION STRING!!

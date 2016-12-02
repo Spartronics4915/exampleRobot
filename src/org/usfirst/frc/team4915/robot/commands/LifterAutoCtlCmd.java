@@ -31,7 +31,7 @@ public class LifterAutoCtlCmd extends Command
        m_done = false;
    }
 
-    protected void execute() // (repeatedly 
+    protected void execute() // (repeatedly)
     {
         if(m_sweepFwd)
         {
@@ -47,15 +47,15 @@ public class LifterAutoCtlCmd extends Command
         }
         else
         {
-            if(m_lifter.getFwdLimitSwitch())
+            if(m_lifter.getRevLimitSwitch())
             {
                if(!m_repeat)
                    m_done = true;
                else
-                   m_sweepFwd = false;
+                   m_sweepFwd = true;
             }
             else
-                m_lifter.runMotor(-0.5); // constant forward velocity
+                m_lifter.runMotor(-0.5); // constant reverse velocity
 
         }
         if(m_done)
