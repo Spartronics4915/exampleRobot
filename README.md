@@ -14,4 +14,6 @@ Primary points of focus:
   subsystems and robot.
 * minimal use of RobotMap (only for constants)
 * minimal use of statics
+* a working codebase for use with the electronics testbed
+* an introduction to git workflows
 
