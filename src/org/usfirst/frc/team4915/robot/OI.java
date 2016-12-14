@@ -3,7 +3,6 @@ import org.usfirst.frc.team4915.robot.commands.*;
 import org.usfirst.frc.team4915.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +31,8 @@ public class OI
     private JoystickButton m_lifterRevRutton;
     private JoystickButton m_lifterCycleButton;
     private JoystickButton m_lifterCheckLimitSwitchButton;
+    
+    private JoystickButton m_airLifterButton;
 
     private SendableChooser m_autoChooser;
     
@@ -48,6 +49,8 @@ public class OI
     private final int k_liftCycleBID = 7; // auto back and forth 'tii canceled
     private final int k_liftCheckLimitSwitchBID = 8;
     
+    private final int k_airLifterBID = 9;
+    
     // --------------------------------------------------------------------
     public OI(Robot robot)
     {
@@ -56,6 +59,7 @@ public class OI
         // per-subsystem OI
         initDriveOI();
         initLifterOI();
+        initAirLifterOI(); // must follow initLifterOI - we use the same ttick
         initGlobalOI();
         
         // dashboard view
@@ -85,7 +89,20 @@ public class OI
         m_lifterRevRutton.whenPressed(new LifterAutoCtlCmd(l, false, false));
         m_lifterCycleButton = new JoystickButton(m_lifterStick, k_liftCycleBID);
         m_lifterCycleButton.whenPressed(new LifterAutoCtlCmd(l, true, true));
-   }
+    }
+    
+    private void initAirLifterOI()
+    {
+        AirLifter al = m_robot.getAirLifter();
+        // we currently rely on m_lifterStick initialization
+        if(m_lifterStick == null)
+        {
+            m_robot.logger.error("Hey! make sure initLifterOI is called before initAirLifterOI");
+        }
+        
+        m_airLifterButton = new JoystickButton(m_lifterStick, k_airLifterBID);
+        m_airLifterButton.whileHeld(new AirLifterCmd(al));
+    }
     
     private void initGlobalOI()
     {

@@ -10,6 +10,7 @@ package org.usfirst.frc.team4915.robot;
 public class RobotMap 
 {
     // CAN Devices
+    public static final int PCMCanID = 0; 
     public static final int lifterMotorID = 10;
     public static final int driveTrainLeftMasterMotorID = 11;
     public static final int driveTrainLeftFollowerMotorID = 12;
@@ -21,6 +22,7 @@ public class RobotMap
     public static int lifterDIOSwitchPin = 2;
     
     // PWM Controls
+    public static final int AirLifterSolenoidChannel = 0;
     
     // SPI Devices
     

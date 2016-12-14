@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team4915.robot.subsystems.AresDriveTrain;
 import org.usfirst.frc.team4915.robot.subsystems.Lifter;
+import org.usfirst.frc.team4915.robot.subsystems.AirLifter;
 import org.usfirst.frc.team4915.robot.RobotMap;
 
 // WPI runtime assumes/requires we have a class called Robot
@@ -19,6 +20,7 @@ public class Robot extends IterativeRobot
     // subsystems
     private AresDriveTrain m_driveTrain;
     private Lifter m_lifter;
+    private AirLifter m_airLifter;
     
     // misc sensors that aren't part of a subsystem
     private DigitalOutput m_photonicCannon;
@@ -29,6 +31,7 @@ public class Robot extends IterativeRobot
     // accessors
     public AresDriveTrain getDriveTrain() { return m_driveTrain; }
     public Lifter getLifter() { return m_lifter; }
+    public AirLifter getAirLifter() { return m_airLifter; }
     public DigitalOutput getPhotonicCannon() { return m_photonicCannon; }
 
     /** robotInit:
@@ -41,6 +44,7 @@ public class Robot extends IterativeRobot
         // first initialize subsystems
         m_driveTrain = new AresDriveTrain(this);
         m_lifter = new Lifter(this);
+        m_airLifter = new AirLifter(this);
         
         // misc constructors
         m_photonicCannon = new DigitalOutput(RobotMap.photonicCannonPin);
