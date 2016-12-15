@@ -23,7 +23,8 @@ public class RobotMap
     
     // PWM Controls
     public static final int AirLifterSolenoidChannel = 0;
-    
+    public static final int AirLifterSolenoid2Channel = 1;
+     
     // SPI Devices
     
     // I2C Devices
