@@ -35,7 +35,7 @@ public class AirLifter extends Subsystem
         return m_solenoid.get();
     }
     
-    public disable()
+    public void disable()
     {
         m_solenoid.set(Value.kOff);
     }
