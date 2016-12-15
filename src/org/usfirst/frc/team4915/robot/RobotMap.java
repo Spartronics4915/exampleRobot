@@ -18,8 +18,8 @@ public class RobotMap
     public static final int driveTrainRightFollowerMotorID = 14;
     
     // DigitalInput/Output (DIO) pins
+    public static int lifterDIOSwitchPin = 0;
     public static int photonicCannonPin = 1;
-    public static int lifterDIOSwitchPin = 2;
     
     // PWM Controls
     public static final int AirLifterSolenoidChannel = 0;

@@ -68,7 +68,12 @@ public class Lifter extends Subsystem
     }
     public boolean getDIOLimitSwitch() 
     {
-        return m_dioLimitSwitch.get();
+        // Here we assume that the switch is closed when its 
+        // digital value is 0. This is true when it's been wired
+        // "normally open" with the switch placed between pin and ground.
+        // Since the DigitalInput has internal pull-up resistor, 
+        // the digital value reads 1 when the switch is open.
+        return !m_dioLimitSwitch.get();
     }
     public boolean isAnyLimitSwitchClosed()
     {
