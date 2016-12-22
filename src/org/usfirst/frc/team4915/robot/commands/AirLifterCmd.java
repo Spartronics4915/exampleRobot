@@ -2,6 +2,8 @@ package org.usfirst.frc.team4915.robot.commands;
 
 import org.usfirst.frc.team4915.robot.Logger;
 import org.usfirst.frc.team4915.robot.subsystems.AirLifter;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -24,7 +26,7 @@ public class AirLifterCmd extends Command {
     public void start() // called repeatedly whileHeld
     {
         super.start(); // make sure superclass start is invoked
-        if(!m_airLifter.get())
+        if(DoubleSolenoid.Value.kOff == m_airLifter.get())
         {
             m_airLifter.actuate(true);
         }
